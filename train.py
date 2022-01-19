@@ -11,8 +11,8 @@ from utils.lr_scheduler import MultiStepWarmUpLR
 from utils.prior_box import priors_box
 from utils.utils import set_memory_growth
 from dataset.preprocess import load_dataset
-from network.losses import MultiBoxLoss
-from network.network import SlimModel
+from network.loss import MultiBoxLoss
+from network.net import SSDModel
 
 flags.DEFINE_string('gpu', '0', 'which gpu to use')
 
@@ -46,7 +46,7 @@ def main(_):
 
     logging.info("Create Model...")
     try:
-        model = SlimModel(cfg=cfg, num_cell=num_cell, training=True)
+        model = SSDModel(cfg=cfg, num_cell=num_cell, training=True)
         model.summary()
         tf.keras.utils.plot_model(model, to_file=os.path.join(os.getcwd(), 'model.png'),
                                   show_shapes=True, show_layer_names=True)
