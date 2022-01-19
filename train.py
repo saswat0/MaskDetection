@@ -10,7 +10,7 @@ from utils import config
 from utils.lr_scheduler import MultiStepWarmUpLR
 from utils.prior_box import priors_box
 from utils.utils import set_memory_growth
-from dataset.tf_dataset_preprocess import load_dataset
+from dataset.preprocess import load_dataset
 from network.losses import MultiBoxLoss
 from network.network import SlimModel
 
