@@ -1,2 +1,2 @@
 # MaskDetection
-PyTorch Implementation of SSD for mask detection
+Tensorflow Implementation of SSD for mask detection
