@@ -46,6 +46,9 @@ def priors_box(cfg,image_sizes=None):
                 anchors += [cx, cy, s_kx, s_ky]
 
     output = np.asarray(anchors).reshape([-1, 4])
+    print("prios:",output.shape,len(output))
+    print("num box for fm cell:",num_box_fm_cell)
+    
     if clip:
         output = np.clip(output, 0, 1)
     return output,num_box_fm_cell
