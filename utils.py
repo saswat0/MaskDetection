@@ -46,26 +46,23 @@ def parse_annotation(annotation_path):
     return {'boxes': boxes, 'labels': labels, 'difficulties': difficulties}
 
 
-def create_data_lists(voc07_path, voc12_path, output_folder):
-    voc07_path = os.path.abspath(voc07_path)
-    voc12_path = os.path.abspath(voc12_path)
+def create_data_lists(dataset_path, output_folder):
+    dataset_path = os.path.abspath(dataset_path)
 
     train_images = list()
     train_objects = list()
     n_objects = 0
 
-    for path in [voc07_path]:
+    with open(os.path.join(dataset_path, 'ImageSets/Main/trainval.txt')) as f:
+        ids = f.read().splitlines()
 
-        with open(os.path.join(path, 'ImageSets/Main/trainval.txt')) as f:
-            ids = f.read().splitlines()
-
-        for id in ids:
-            objects = parse_annotation(os.path.join(path, 'Annotations', id + '.xml'))
-            if len(objects['boxes']) == 0:
-                continue
-            n_objects += len(objects)
-            train_objects.append(objects)
-            train_images.append(os.path.join(path, 'JPEGImages', id + '.jpg'))
+    for id in ids:
+        objects = parse_annotation(os.path.join(dataset_path, 'Annotations', id + '.xml'))
+        if len(objects['boxes']) == 0:
+            continue
+        n_objects += len(objects)
+        train_objects.append(objects)
+        train_images.append(os.path.join(dataset_path, 'JPEGImages', id + '.jpg'))
 
     assert len(train_objects) == len(train_images)
 
@@ -83,16 +80,16 @@ def create_data_lists(voc07_path, voc12_path, output_folder):
     test_objects = list()
     n_objects = 0
 
-    with open(os.path.join(voc07_path, 'ImageSets/Main/test.txt')) as f:
+    with open(os.path.join(dataset_path, 'ImageSets/Main/test.txt')) as f:
         ids = f.read().splitlines()
 
     for id in ids:
-        objects = parse_annotation(os.path.join(voc07_path, 'Annotations', id + '.xml'))
+        objects = parse_annotation(os.path.join(dataset_path, 'Annotations', id + '.xml'))
         if len(objects) == 0:
             continue
         test_objects.append(objects)
         n_objects += len(objects)
-        test_images.append(os.path.join(voc07_path, 'JPEGImages', id + '.jpg'))
+        test_images.append(os.path.join(dataset_path, 'JPEGImages', id + '.jpg'))
 
     assert len(test_objects) == len(test_images)
 
